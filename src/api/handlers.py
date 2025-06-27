@@ -98,7 +98,11 @@ def run_generation_task(request: GenerationRequest):
 
         # 1. Инициализация генератора
         total_value = generation_status.get("total", 0)
-        total = int(total_value) if total_value is not None and isinstance(total_value, (int, str)) else 0
+        total = (
+            int(total_value)
+            if total_value is not None and isinstance(total_value, (int, str))
+            else 0
+        )
         update_progress("Инициализация генератора", 0, total)
         generator = CertificateGenerator(
             num_clients=request.num_clients,
@@ -134,9 +138,7 @@ def run_generation_task(request: GenerationRequest):
         for batch in generator.generate_certificates_parallel():
             db.insert_certificates_batch(batch)
             cert_count += len(batch)
-            update_progress(
-                "Генерация сертификатов", client_count + cert_count, total
-            )
+            update_progress("Генерация сертификатов", client_count + cert_count, total)
 
         # 5. Генерация назначений
         update_progress("Генерация назначений", client_count + cert_count, total)
@@ -458,7 +460,9 @@ async def get_client_certificate_assignments(
 
         # Параметры для основного запроса
         query_params = (
-            [str(current_date), str(current_date), str(current_date)] + params + [limit, skip]
+            [str(current_date), str(current_date), str(current_date)]
+            + params
+            + [limit, skip]
         )
 
         df = pd.read_sql_query(query, connection, params=query_params)

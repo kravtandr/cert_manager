@@ -11,12 +11,20 @@ class SystemOptimizer:
     def get_optimal_settings(num_clients: int, num_certificates: int) -> Dict:
         """Автоматическое определение оптимальных настроек"""
         system_info = SystemOptimizer._get_system_info()
-        data_estimates = SystemOptimizer._estimate_data_size(num_clients, num_certificates)
+        data_estimates = SystemOptimizer._estimate_data_size(
+            num_clients, num_certificates
+        )
 
-        num_workers = SystemOptimizer._calculate_optimal_workers(data_estimates["estimated_data_size_gb"], system_info["cpu_cores"])
-        batch_size = SystemOptimizer._calculate_optimal_batch_size(system_info, data_estimates, num_clients)
+        num_workers = SystemOptimizer._calculate_optimal_workers(
+            data_estimates["estimated_data_size_gb"], system_info["cpu_cores"]
+        )
+        batch_size = SystemOptimizer._calculate_optimal_batch_size(
+            system_info, data_estimates, num_clients
+        )
         write_buffer_size = SystemOptimizer._calculate_write_buffer_size(batch_size)
-        chunk_size = SystemOptimizer._calculate_chunk_size(data_estimates["total_possible_assignments"])
+        chunk_size = SystemOptimizer._calculate_chunk_size(
+            data_estimates["total_possible_assignments"]
+        )
 
         return {
             "num_workers": num_workers,
@@ -25,7 +33,9 @@ class SystemOptimizer:
             "chunk_size": chunk_size,
             "estimated_data_size_gb": data_estimates["estimated_data_size_gb"],
             "target_memory_per_batch_mb": data_estimates["target_memory_per_batch_mb"],
-            "total_possible_assignments": int(data_estimates["total_possible_assignments"]),
+            "total_possible_assignments": int(
+                data_estimates["total_possible_assignments"]
+            ),
         }
 
     @staticmethod
@@ -50,7 +60,9 @@ class SystemOptimizer:
         ) / (1024**3)
 
         available_memory_gb = psutil.virtual_memory().available / (1024**3)
-        target_memory_per_batch_mb = max(10, min(250, available_memory_gb * 1024 * 0.15))
+        target_memory_per_batch_mb = max(
+            10, min(250, available_memory_gb * 1024 * 0.15)
+        )
 
         return {
             "estimated_data_size_gb": estimated_data_size_gb,
@@ -60,7 +72,9 @@ class SystemOptimizer:
         }
 
     @staticmethod
-    def _calculate_optimal_workers(estimated_data_size_gb: float, cpu_cores: int) -> int:
+    def _calculate_optimal_workers(
+        estimated_data_size_gb: float, cpu_cores: int
+    ) -> int:
         """Расчет оптимального количества потоков"""
         if estimated_data_size_gb < 1:
             return min(cpu_cores, 4)
@@ -72,7 +86,9 @@ class SystemOptimizer:
             return cpu_cores
 
     @staticmethod
-    def _calculate_optimal_batch_size(system_info: Dict, data_estimates: Dict, num_clients: int) -> int:
+    def _calculate_optimal_batch_size(
+        system_info: Dict, data_estimates: Dict, num_clients: int
+    ) -> int:
         """Расчет оптимального размера батча"""
         memory_gb = system_info["memory_gb"]
         target_memory_per_batch_mb = data_estimates["target_memory_per_batch_mb"]
@@ -91,7 +107,9 @@ class SystemOptimizer:
         elif memory_gb < 32:
             return min(optimal_batch_from_memory, 200000, max(10000, num_clients // 50))
         else:
-            return min(optimal_batch_from_memory, 1000000, max(50000, num_clients // 20))
+            return min(
+                optimal_batch_from_memory, 1000000, max(50000, num_clients // 20)
+            )
 
     @staticmethod
     def _calculate_write_buffer_size(batch_size: int) -> int:
