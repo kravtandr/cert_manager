@@ -1,0 +1,23 @@
+pandas==2.1.4
+faker==20.1.0
+python-dateutil==2.8.2
+tqdm==4.66.1
+psutil==5.9.6
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+
+# Development tools
+flake8==6.1.0
+black==23.11.0
+isort==5.12.0
+mypy==1.7.1
+pre-commit==3.6.0
+
+# Testing tools
+pytest==7.4.3
+pytest-asyncio==0.23.2
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+httpx==0.25.2
+factory-boy==3.3.0 
