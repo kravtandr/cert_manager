@@ -1,7 +1,7 @@
 # 🎯 [Тестовое задание] Система управления сертификатами клиентов
 
-![CI](https://github.com/{username}/{repo}/workflows/CI/badge.svg)
-![Coverage](https://codecov.io/gh/{username}/{repo}/branch/main/graph/badge.svg)
+![CI](https://github.com/kravtandr/cert_manager/workflows/CI/badge.svg)
+![Coverage](https://codecov.io/gh/kravtandr/cert_manager/branch/main/graph/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.9+-blue.svg)
 
 ## Тестовое задание
