@@ -73,7 +73,6 @@ Thumbs.db
 
 # Project specific
 # База данных
-data/
 *.db
 *.sqlite
 *.sqlite3
@@ -81,10 +80,6 @@ data/
 # Логи
 logs/
 *.log
-
-# Выходные файлы
-output/
-*.csv
 
 # Docker
 .dockerignore
