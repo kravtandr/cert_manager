@@ -1,3 +1,7 @@
+"""
+Класс для работы с базой данных
+
+"""
 import os
 import sqlite3
 import threading

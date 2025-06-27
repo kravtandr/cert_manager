@@ -1,5 +1,6 @@
 """
 Общие fixtures для тестов
+
 """
 
 import os

@@ -1,5 +1,6 @@
 """
 Интеграционные тесты полного workflow
+
 """
 
 import pytest
